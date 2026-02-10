@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+
+  hadoop-master:
+    image: liliasfaxi/hadoop-cluster:latest
+    container_name: hadoop-master-project
+    hostname: hadoop-master-project
+    networks:
+      - hadoop
+    ports:
+      - "9870:9870"   # NameNode UI
+      - "8088:8088"   # YARN ResourceManager UI
+      - "9000:9000"
+      - "7077:7077"   
+      - "16010:16010" 
+    command: bash -c "service ssh start; tail -f /dev/null"
+
+  hadoop-worker1:
+    image: liliasfaxi/hadoop-cluster:latest
+    container_name: hadoop-worker1-project
+    hostname: hadoop-worker1-project
+    networks:
+      - hadoop
+    ports:
+      - "8040:8042"  
+    command: bash -c "service ssh start; tail -f /dev/null"
+
+  hadoop-worker2:
+    image: liliasfaxi/hadoop-cluster:latest
+    container_name: hadoop-worker2-project
+    hostname: hadoop-worker2-project
+    networks:
+      - hadoop
+    ports:
+      - "8041:8042"   # NodeManager UI
+    command: bash -c "service ssh start; tail -f /dev/null"
+
+networks:
+  hadoop:
+    driver: bridge
